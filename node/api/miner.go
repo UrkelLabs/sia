@@ -72,6 +72,15 @@ func (api *API) minerHeaderHandlerPOST(w http.ResponseWriter, req *http.Request,
 	WriteSuccess(w)
 }
 
+func (api *API) minerBlockHandlerGET(w http.ResponseWriter, _ *http.Request, _ httprouter.Params) {
+	b := api.miner.BlockForWork()
+	// if err != nil {
+	// 	WriteError(w, Error{err.Error()}, http.StatusBadRequest)
+	// 	return
+	// }
+	w.Write(encoding.MarshalAll(b))
+}
+
 // minerBlockHandlerPOST handles the API call to submit a solved block to the
 // miner.
 func (api *API) minerBlockHandlerPOST(w http.ResponseWriter, req *http.Request, _ httprouter.Params) {
