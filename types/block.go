@@ -171,7 +171,7 @@ func (b Block) MinerPayoutID(i uint64) SiacoinOutputID {
 func (b Block) BlockTemplate() BlockTemplate {
     var txs []TransactionID
 
-    for _, txn = range b.Transactions {
+    for _, txn := range b.Transactions {
         txs = append(txs, txn.ID())
     }
 
