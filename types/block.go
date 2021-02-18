@@ -179,6 +179,7 @@ func (b Block) BlockTemplate() BlockTemplate {
         ParentID: b.ParentID,
         Nonce: b.Nonce,
         Timestamp: b.Timestamp,
+        MinerPayouts: b.MinerPayouts,
         Transactions: txs,
     }
 }
