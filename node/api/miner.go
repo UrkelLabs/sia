@@ -78,7 +78,8 @@ func (api *API) minerBlockHandlerGET(w http.ResponseWriter, _ *http.Request, _ h
 	// 	WriteError(w, Error{err.Error()}, http.StatusBadRequest)
 	// 	return
 	// }
-	w.Write(encoding.MarshalAll(b))
+	// w.Write(encoding.MarshalAll(b))
+    WriteJSON(w, b);
 }
 
 // minerBlockHandlerPOST handles the API call to submit a solved block to the
