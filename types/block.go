@@ -38,6 +38,7 @@ type (
 		Timestamp    Timestamp       `json:"timestamp"`
 		MinerPayouts []SiacoinOutput `json:"minerpayouts"`
 		Transactions []TransactionID   `json:"transactions"`
+        Target Target `json:"target"`
     }
 
 	// A BlockHeader contains the data that, when hashed, produces the Block's ID.

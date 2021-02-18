@@ -67,6 +67,7 @@ func (m *Miner) BlockTemplate() types.BlockTemplate {
 	}}
 
     template := b.BlockTemplate()
+    template.Target = m.persist.Target
 
     // This is something we likely want to do on the pool side.
 	// Add an arb-data txn to the block to create a unique merkle root.
