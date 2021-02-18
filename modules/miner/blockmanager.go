@@ -48,6 +48,35 @@ func (m *Miner) blockForWork() types.Block {
 	return b
 }
 
+func (m *Miner) BlockForWork() types.Block {
+	b := m.persist.UnsolvedBlock
+
+	// Update the timestamp.
+	if b.Timestamp < types.CurrentTimestamp() {
+		b.Timestamp = types.CurrentTimestamp()
+	}
+
+	// Update the address + payouts.
+	err := m.checkAddress()
+	if err != nil {
+		m.log.Println(err)
+	}
+	b.MinerPayouts = []types.SiacoinOutput{{
+		Value:      b.CalculateSubsidy(m.persist.Height + 1),
+		UnlockHash: m.persist.Address,
+	}}
+
+    // This is something we likely want to do on the pool side.
+	// Add an arb-data txn to the block to create a unique merkle root.
+	randBytes := fastrand.Bytes(types.SpecifierLen)
+	randTxn := types.Transaction{
+		ArbitraryData: [][]byte{append(modules.PrefixNonSia[:], randBytes...)},
+	}
+	b.Transactions = append([]types.Transaction{randTxn}, b.Transactions...)
+
+	return b
+}
+
 // newSourceBlock creates a new source block for the block manager so that new
 // headers will use the updated source block.
 func (m *Miner) newSourceBlock() {

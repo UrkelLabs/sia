@@ -20,6 +20,8 @@ type BlockManager interface {
 	// corresponds to the header for 50 calls.
 	HeaderForWork() (types.BlockHeader, types.Target, error)
 
+	BlockForWork() types.Block
+
 	// SubmitBlock accepts a solved block.
 	SubmitBlock(types.Block) error
 
