@@ -106,12 +106,12 @@ func (api *API) buildHTTPRoutes() {
 	// Miner API Calls
 	if api.miner != nil {
 		router.GET("/miner", api.minerHandler)
-		router.GET("/miner/block", RequirePassword(api.minerBlockHandlerGET, requiredPassword))
-		router.POST("/miner/block", RequirePassword(api.minerBlockHandlerPOST, requiredPassword))
-		router.GET("/miner/header", RequirePassword(api.minerHeaderHandlerGET, requiredPassword))
-		router.POST("/miner/header", RequirePassword(api.minerHeaderHandlerPOST, requiredPassword))
-		router.GET("/miner/start", RequirePassword(api.minerStartHandler, requiredPassword))
-		router.GET("/miner/stop", RequirePassword(api.minerStopHandler, requiredPassword))
+		router.GET("/miner/block", RequirePassword(api.minerBlockHandlerGET))
+		router.POST("/miner/block", RequirePassword(api.minerBlockHandlerPOST))
+		router.GET("/miner/header", RequirePassword(api.minerHeaderHandlerGET))
+		router.POST("/miner/header", RequirePassword(api.minerHeaderHandlerPOST))
+		router.GET("/miner/start", RequirePassword(api.minerStartHandler))
+		router.GET("/miner/stop", RequirePassword(api.minerStopHandler))
 	}
 
 	// Renter API Calls
