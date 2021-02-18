@@ -73,7 +73,7 @@ func (api *API) minerHeaderHandlerPOST(w http.ResponseWriter, req *http.Request,
 }
 
 func (api *API) minerBlockHandlerGET(w http.ResponseWriter, _ *http.Request, _ httprouter.Params) {
-	b := api.miner.blockForWork()
+	b := api.miner.BlockTemplate()
 	// if err != nil {
 	// 	WriteError(w, Error{err.Error()}, http.StatusBadRequest)
 	// 	return

@@ -48,7 +48,7 @@ func (m *Miner) blockForWork() types.Block {
 	return b
 }
 
-func (m *Miner) BlockForWork() types.Block {
+func (m *Miner) BlockTemplate() types.Block {
 	b := m.persist.UnsolvedBlock
 
 	// Update the timestamp.
