@@ -48,7 +48,7 @@ func (m *Miner) blockForWork() types.Block {
 	return b
 }
 
-func (m *Miner) BlockTemplate() types.Block {
+func (m *Miner) BlockTemplate() types.BlockTemplate {
 	b := m.persist.UnsolvedBlock
 
 	// Update the timestamp.
@@ -66,15 +66,17 @@ func (m *Miner) BlockTemplate() types.Block {
 		UnlockHash: m.persist.Address,
 	}}
 
+    template := b.BlockTemplate()
+
     // This is something we likely want to do on the pool side.
 	// Add an arb-data txn to the block to create a unique merkle root.
-	randBytes := fastrand.Bytes(types.SpecifierLen)
-	randTxn := types.Transaction{
-		ArbitraryData: [][]byte{append(modules.PrefixNonSia[:], randBytes...)},
-	}
-	b.Transactions = append([]types.Transaction{randTxn}, b.Transactions...)
+	// randBytes := fastrand.Bytes(types.SpecifierLen)
+	// randTxn := types.Transaction{
+	// 	ArbitraryData: [][]byte{append(modules.PrefixNonSia[:], randBytes...)},
+	// }
+	// b.Transactions = append([]types.Transaction{randTxn}, b.Transactions...)
 
-	return b
+	return template
 }
 
 // newSourceBlock creates a new source block for the block manager so that new

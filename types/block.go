@@ -32,6 +32,14 @@ type (
 		Transactions []Transaction   `json:"transactions"`
 	}
 
+    BlockTemplate struct {
+		ParentID     BlockID         `json:"parentid"`
+		Nonce        BlockNonce      `json:"nonce"`
+		Timestamp    Timestamp       `json:"timestamp"`
+		MinerPayouts []SiacoinOutput `json:"minerpayouts"`
+		Transactions []TransactionID   `json:"transactions"`
+    }
+
 	// A BlockHeader contains the data that, when hashed, produces the Block's ID.
 	BlockHeader struct {
 		ParentID   BlockID     `json:"parentid"`
@@ -158,6 +166,21 @@ func (b Block) MinerPayoutID(i uint64) SiacoinOutputID {
 		b.ID(),
 		i,
 	))
+}
+
+func (b Block) BlockTemplate() BlockTemplate {
+    var txs []TransactionID
+
+    for _, txn = range b.Transactions {
+        txs = append(txs, txn.ID())
+    }
+
+    return BlockTemplate{
+        ParentID: b.ParentID,
+        Nonce: b.Nonce,
+        Timestamp: b.Timestamp,
+        Transactions: txs,
+    }
 }
 
 // FoundationSubsidyID returns the ID of the Foundation subsidy, which is
