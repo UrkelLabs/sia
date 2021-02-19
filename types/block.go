@@ -187,7 +187,7 @@ func (b Block) BlockTemplate() BlockTemplate {
         Timestamp: b.Timestamp,
         MinerPayouts: b.MinerPayouts,
         Transactions: txs,
-        MerkleBranches: b.MerkleBranches(),
+        // MerkleBranches: b.MerkleBranches(),
     }
 }
 
