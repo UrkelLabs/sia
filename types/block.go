@@ -43,6 +43,7 @@ type (
 		Transactions []TransactionID   `json:"transactions"`
         Target Target `json:"target"`
         MerkleBranches []string `json:"merklebranches"`
+        BlockHeight BlockHeight `json:"height"`
     }
 
 	// A BlockHeader contains the data that, when hashed, produces the Block's ID.
