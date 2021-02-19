@@ -201,14 +201,15 @@ func (bid BlockID) FoundationSubsidyID() SiacoinOutputID {
 func (b Block) MerkleBranches() []string {
 	mbranch := crypto.NewTree()
 	var buf bytes.Buffer
+	e := encoding.NewEncoder(&buf)
 	for _, payout := range b.MinerPayouts {
-		payout.MarshalSia(&buf)
+		payout.MarshalSia(e)
 		mbranch.Push(buf.Bytes())
 		buf.Reset()
 	}
 
 	for _, txn := range b.Transactions {
-		txn.MarshalSia(&buf)
+		txn.MarshalSia(e)
 		mbranch.Push(buf.Bytes())
 		buf.Reset()
 	}
