@@ -6,8 +6,6 @@ package types
 import (
 	"bytes"
     "encoding/hex"
-	"hash"
-	"unsafe"
 
 	"gitlab.com/NebulousLabs/Sia/crypto"
 	"gitlab.com/NebulousLabs/encoding"
