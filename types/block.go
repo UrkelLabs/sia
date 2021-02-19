@@ -42,7 +42,7 @@ type (
 		MinerPayouts []SiacoinOutput `json:"minerpayouts"`
 		Transactions []TransactionID   `json:"transactions"`
         Target Target `json:"target"`
-        MerkleBranches []string `json:"merklebranches"`
+        TransactionsHex []string `json::transactions_hex"`
         Height BlockHeight `json:"height"`
     }
 
@@ -187,7 +187,7 @@ func (b Block) BlockTemplate() BlockTemplate {
         Timestamp: b.Timestamp,
         MinerPayouts: b.MinerPayouts,
         Transactions: txs,
-        // MerkleBranches: b.MerkleBranches(),
+        TransactionsHex: b.TransactionsHex()
     }
 }
 
@@ -198,46 +198,23 @@ func (bid BlockID) FoundationSubsidyID() SiacoinOutputID {
 	return SiacoinOutputID(crypto.HashAll(bid, SpecifierFoundation))
 }
 
-func (b Block) MerkleBranches() []string {
-	mbranch := crypto.NewTree()
+func (b Block) TransactionsHex() []string {
+
+    var txs []string
+
 	var buf bytes.Buffer
 	e := encoding.NewEncoder(&buf)
 	for _, payout := range b.MinerPayouts {
 		payout.MarshalSia(e)
-		mbranch.Push(buf.Bytes())
+        txs = append(txs, hex.EncodeToString(buf.Bytes()))
 		buf.Reset()
 	}
 
 	for _, txn := range b.Transactions {
 		txn.MarshalSia(e)
-		mbranch.Push(buf.Bytes())
+        txs = append(txs, hex.EncodeToString(buf.Bytes()))
 		buf.Reset()
 	}
-	//
-	// This whole approach needs to be revisited.  I basically am cheating to look
-	// inside the merkle tree struct to determine if the head is a leaf or not
-	//
-	type SubTree struct {
-		next   *SubTree
-		height int // Int is okay because a height over 300 is physically unachievable.
-		sum    []byte
-	}
 
-	type Tree struct {
-		head         *SubTree
-		hash         hash.Hash
-		currentIndex uint64
-		proofIndex   uint64
-		proofSet     [][]byte
-		cachedTree   bool
-	}
-	tr := *(*Tree)(unsafe.Pointer(mbranch))
-
-	var merkle []string
-	//	h.log.Debugf("mBranch Hash %s\n", mbranch.Root().String())
-	for st := tr.head; st != nil; st = st.next {
-		//		h.log.Debugf("Height %d Hash %x\n", st.height, st.sum)
-		merkle = append(merkle, hex.EncodeToString(st.sum))
-	}
-	return merkle
+	return txs
 }
