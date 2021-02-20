@@ -40,8 +40,9 @@ type (
 		MinerPayouts []SiacoinOutput `json:"minerpayouts"`
 		Transactions []TransactionID   `json:"transactions"`
         Target Target `json:"target"`
-        TransactionsHex []string `json::transactions_hex"`
+        TransactionsHex []string `json:"transactions_hex"`
         Height BlockHeight `json:"height"`
+		MerkleRoot crypto.Hash `json:"merkleroot"`
     }
 
 	// A BlockHeader contains the data that, when hashed, produces the Block's ID.
@@ -186,6 +187,7 @@ func (b Block) BlockTemplate() BlockTemplate {
         MinerPayouts: b.MinerPayouts,
         Transactions: txs,
         TransactionsHex: b.TransactionsHex(),
+        MerkleRoot: b.MerkleRoot(),
     }
 }
 
